@@ -55,33 +55,23 @@ packages = ["ewi_usb_config"]
 
 [tool.hatch.build.targets.sdist]
 exclude = [
-  ".github",
+    ".github",
 ]
 
 
 [tool.hatch.envs.dev]
 dependencies = [
-    "black~=22.6.0",
-    "isort~=5.10.1",
-    "flakeheaven~=3.0.0",
+    "ruff",
 ]
 
 
 [tool.hatch.envs.dev.scripts]
-black = "black"
-flake = "flakeheaven"
+fmt = "ruff format {args:ewi_usb_config}"
+check = "ruff check {args:ewi_usb_config}"
 
 
-[tool.isort]
-profile = "black"
+[tool.ruff]
+line-length = 99
 
-
-[tool.flakeheaven]
-format = "grouped"
-max_line_length = 88
-show_source = true
-
-
-[tool.flakeheaven.plugins]
-pycodestyle = ["+*"]
-pyflakes = ["+*"]
+[tool.ruff.format]
+skip-magic-trailing-comma = true
