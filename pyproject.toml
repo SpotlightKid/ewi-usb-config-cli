@@ -63,6 +63,10 @@ exclude = [
 ]
 
 
+[tool.hatch.envs.default.scripts]
+euc = "ewi-usb-config {args}"
+
+
 [tool.hatch.envs.dev]
 dependencies = [
     "ruff",

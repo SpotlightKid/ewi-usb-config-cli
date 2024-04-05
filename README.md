@@ -148,8 +148,10 @@ Using the [hatch](https://hatch.pypa.io/) tool:
 - `hatch run ewi-usb-config --version`
 - `hatch run ewi-usb-config --help`
 - `hatch status`
-- `hatch project metadata | jq`
+- `hatch project metadata | jq -C | less-R`
 - `hatch version`
+
+*Note:* `hatch run ewi-usb-config` can be abbreviated as `hatch run euc`.
 
 
 ## Deployment
