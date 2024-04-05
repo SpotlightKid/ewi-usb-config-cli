@@ -146,17 +146,23 @@ mainly as a debugging tool for developers.
 
 ## Development
 
-Using the [poetry](https://python-poetry.org/) tool:
+Using the [hatch](https://hatch.pypa.io/) tool:
 
-- `poetry config virtualenvs.in-project true`
-- `poetry install`
-- `poetry run ewi-usb-config --version`
-- `poetry run ewi-usb-config --help`
-- `poetry run ewi-usb-config`
-- `poetry check`
+- `hatch run ewi-usb-config --version`
+- `hatch run ewi-usb-config --help`
+- `hatch status`
+- `hatch project metadata | jq`
+- `hatch version`
 
 
 ## Deployment
 
-- `poetry version minor` or `poetry version patch`
-- `poetry build`
+```con
+hatch version <new version number>
+git add ewi_usb_config/version.py
+git commit -m "Bump version to <new version number>"
+git tag -a -m "Tagging new release <new version number>" vX.Y.Z
+git push --tags master
+```
+
+... and let the GitHub Actions `release` workflow do the rest.

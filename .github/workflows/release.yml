@@ -1,11 +1,10 @@
-name: Release
+name: Build sdist and wheels and publish them to PyPI on release
 
 on:
   push:
     branches:
-      - main
-    paths:
-      - "pyproject.toml"
+      - master
+  workflow_dispatch:
 
 jobs:
   release:
@@ -20,25 +19,31 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v3
         with:
-          python-version: "3.7"
+          python-version: |
+            "3.10"
+            "3.11"
+            "3.12"
 
-      - name: Install Poetry
+      - name: Set up pip cache
+        if: runner.os == 'Linux'
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
+          restore-keys: ${{ runner.os }}-pip-
+
+      - name: Install hatch
         run: |
-          curl -sSL https://install.python-poetry.org | python3 - --version 1.2.0
-          poetry --version
+          pipx install hatch
+          hatch --version
 
       - name: Build the package
         run: |
-          poetry build
+          hatch build
 
       - name: Publish the package to PyPI
+        if: github.event.release
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           user: __token__
           password: ${{ secrets.PYPI_API_TOKEN }}
-
-      - name: Detect and tag the new version
-        uses: salsify/action-detect-and-tag-new-version@v2
-        with:
-          version-command: |
-            bash -o pipefail -c "poetry version | awk '{ print \$2 }'"
