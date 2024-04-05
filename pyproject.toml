@@ -1,0 +1,44 @@
+[tool.poetry]
+name = "ewi-usb-config-cli"
+version = "0.1.0"
+description = "Configure an Akai EWI USB MIDI wind controller via MIDI from the command line"
+license = "MIT"
+authors = ["Christopher Arndt <info@chrisarndt.de>"]
+readme = "README.md"
+homepage = "https://github.com/SpotlightKid/ewi-usb-config-cli"
+repository = "https://github.com/SpotlightKid/ewi-usb-config-cli"
+keywords = ["akai", "ewi", "ewi usb", "wind controller", "midi", "sysex"]
+packages = [
+    { include = "ewi_usb_config" },
+]
+
+[tool.poetry.urls]
+"Bug Tracker" = "https://github.com/SpotlightKid/ewi-usb-config-cli/issues"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+python-rtmidi = "^1.5.8"
+
+[tool.poetry.group.dev.dependencies]
+black = "22.6.0"
+isort = "5.10.1"
+flakeheaven = "3.0.0"
+
+[tool.poetry.scripts]
+ewi-usb-config = "ewi_usb_config.cli:main"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.isort]
+profile = "black"
+
+[tool.flakeheaven]
+format = "grouped"
+max_line_length = 88
+show_source = true
+
+[tool.flakeheaven.plugins]
+pycodestyle = ["+*"]
+pyflakes = ["+*"]
