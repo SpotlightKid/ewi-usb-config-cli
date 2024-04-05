@@ -76,9 +76,9 @@ For example, to set the key delay to 10 (the factory default value is 7):
 ewi-usb-config key-delay=10
 ```
 
-Configure the MIDI control change type, which is sent when biting on the mouth
-piece to only *Modulation* (CC #1) and disable sending *Pitch Bend* as well.
-Also set the bite gain to value 20 (the factory default value is 64):
+Configure the MIDI control change type, which is sent when biting on the rubber
+mouth piece to only send *Modulation* (CC #1) and disable sending *Pitch Bend*
+as well. Also set the bite gain to value 20 (the factory default value is 64):
 
 ```con
 ewi-usb-config bite-cc-1=0 bite-cc-2=1 bite-gain=20
@@ -125,7 +125,33 @@ Note that this format can not be loaded back into the EWI USB. It is meant
 mainly as a debugging tool for developers.
 
 
-## Controller Settings Values
+## Settings Values
+
+All settings take values from 0 to 127, unless noted otherwise here.
+
+* For the controller settings, some values in that range have no effect.
+  See the table in the next section below for details.
+* The `fingering` setting supports the following values:
+
+    | Value | Fingering System                    |
+    | -     | ----------------------------------- |
+    | 0     | Standard EWI fingering              |
+    | 1     | Saxophone                           |
+    | 2     | Flute                               |
+    | 3     | Oboe                                |
+    | 4     | EVI Valve 1                         |
+    | 5     | EVI Valve 2 (reversed pitch plates) |
+* The `midi-channel` settings takes a value from 0 (channel 1) to 15
+  (channel 16).
+* The `transposition` setting takes a value of 52 - 76, with 64 being no
+  transposition and 56 = -12 semitones and 76 = +12 semitones.
+* For the the `velocity` setting, a value of zero (0) means that the EWI will
+  use dynamic velocity values for note-on messages, according to the breath
+  strength, whereas values 1 - 127 will cause note-on messages to have a fixed
+  velocity of the set value.
+
+
+### Controllers
 
 | Value | Breath CC 1   | Breath CC 2   | Bite CC 1         | Bite CC 2     | Pitch Plate Up | Pitch Plate Down |
 | ----- | ------------- | ------------- | ----------------- | ------------- | -------------- | ---------------- |
