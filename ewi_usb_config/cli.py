@@ -421,7 +421,7 @@ def main(args=None):
                 log.error("Skipping mal-formed setting (use: name=value).")
 
             try:
-                if not 0 < (value := int(value)) < 128:
+                if not 0 <= (value := int(value)) < 128:
                     raise ValueError("Out of range")
             except ValueError:
                 log.error(f"Value for setting '{name}' must be an integer 0..127.")
