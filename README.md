@@ -77,8 +77,8 @@ ewi-usb-config key-delay=10
 ```
 
 Configure the MIDI control change type, which is sent when biting on the mouth
-piece to only *Modulation* (CC #1) an disable it sending *Pitch Bend" as well.
-Also set the bite gain a rather low value 20 (the factory default value is 64):
+piece to only *Modulation* (CC #1) and disable sending *Pitch Bend* as well.
+Also set the bite gain to value 20 (the factory default value is 64):
 
 ```con
 ewi-usb-config bite-cc-1=0 bite-cc-2=1 bite-gain=20
@@ -111,7 +111,7 @@ ASCII to the standard output by adding the `-a|--ascii` option and using `-` as
 the output filename to indicate standard output:
 
 ```con
-ewi-usb-config --ascii r -
+ewi-usb-config -ar -
 ```
 
 This produces output like this:
