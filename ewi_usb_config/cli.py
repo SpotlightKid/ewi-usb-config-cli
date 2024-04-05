@@ -38,10 +38,18 @@ from os.path import exists
 from time import sleep, time
 
 from rtmidi import midiutil
+from rtmidi.midiconstants import (
+    CONTROL_CHANGE,
+    DATA_ENTRY_LSB,
+    DATA_ENTRY_MSB,
+    END_OF_EXCLUSIVE,
+    NRPN_LSB,
+    NRPN_MSB,
+    SYSTEM_EXCLUSIVE,
+)
 
-from .ewidata import *
+from .ewidata import MANUFACTURER_ID_AKAI, MODEL_ID_EWI_USB, MSG_ID_DUMP_REQUEST, NRPN
 from .version import version as __version__
-
 
 PROG = "ewi-usb-config"
 
@@ -151,8 +159,8 @@ class AkaiEWIUSB:
         """Send a MIDI system exclusive (SysEx) message."""
         if (
             msg
-            and msg.startswith(b"\xF0")
-            and msg.endswith(b"\xF7")
+            and msg.startswith(b"\xf0")
+            and msg.endswith(b"\xf7")
             and all((val <= 0x7F for val in msg[1:-1]))
         ):
             self._midiout.send_message(msg)
@@ -286,9 +294,7 @@ def do_send_dump(args):
 
         akai.close()
     else:
-        log.error(
-            f"No supported SysEx message found in '{args.send}'. Nothing was sent."
-        )
+        log.error(f"No supported SysEx message found in '{args.send}'. Nothing was sent.")
 
 
 def main(args=None):
@@ -382,9 +388,7 @@ def main(args=None):
             if args.force:
                 log.warning(f"Overwriting exiting file '{args.receive}'.")
             else:
-                log.error(
-                    f"File '{args.receive}' exist. Use option -f to overwrite. Aborting."
-                )
+                log.error(f"File '{args.receive}' exist. Use option -f to overwrite. Aborting.")
                 return
 
         try:

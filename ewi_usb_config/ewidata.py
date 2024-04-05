@@ -1,18 +1,6 @@
 import enum
 
-from rtmidi.midiconstants import (
-    BREATH_CONTROLLER,
-    CONTROL_CHANGE,
-    DATA_ENTRY_LSB,
-    DATA_ENTRY_MSB,
-    END_OF_EXCLUSIVE,
-    MODULATION,
-    NRPN_LSB,
-    NRPN_MSB,
-    PITCH_BEND,
-    SYSTEM_EXCLUSIVE,
-)
-
+from rtmidi.midiconstants import BREATH_CONTROLLER, MODULATION
 
 MANUFACTURER_ID_AKAI = 0x47
 MODEL_ID_EWI_USB = 0x6D
