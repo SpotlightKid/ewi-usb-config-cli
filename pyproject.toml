@@ -59,7 +59,8 @@ packages = ["ewi_usb_config"]
 
 [tool.hatch.build.targets.sdist]
 exclude = [
-    ".github",
+    "/.github",
+    "/docs",
 ]
 
 
