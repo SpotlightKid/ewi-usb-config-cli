@@ -1,4 +1,4 @@
-name: Build sdist and wheels and publish them to PyPI on release
+name: Build sdist and wheels and publish them to PyPI when a release tag is created in master branch
 
 on:
   push:
@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  release:
-    name: Release
+  build_dist:
+    name: Build distribution
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
@@ -38,9 +38,30 @@ jobs:
         run: |
           hatch build
 
-      - name: Publish the package to PyPI
-        if: github.event.release
-        uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
         with:
-          user: __token__
-          password: ${{ secrets.PYPI_API_TOKEN }}
+          path: dist/*
+          if-no-files-found: error
+
+  publish:
+    if: contains(github.ref, '/tags/v')
+    needs: [build_dist]
+    runs-on: ubuntu-latest
+    environment: PyPI Release
+    steps:
+    - name: Download artifacts
+      uses: actions/download-artifact@v3
+      with:
+        # unpacks default artifact into dist/
+        # if `name: artifact` is omitted, the action will create extra parent dir
+        name: artifact
+        path: dist
+
+    - name: Publish sdist and wheels to PyPI
+      uses: pypa/gh-action-pypi-publish@v1
+      with:
+        user: __token__
+        password: ${{ secrets.PYPI_API_TOKEN }}
+        verify-metadata: false
+
