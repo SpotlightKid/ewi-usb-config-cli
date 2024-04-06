@@ -14,18 +14,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Check out the repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
 
       - name: Set up Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v5
         with:
           python-version: '3.11'
 
       - name: Set up pip cache
         if: runner.os == 'Linux'
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('pyproject.toml') }}
@@ -41,19 +41,21 @@ jobs:
           hatch build
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           path: dist/*
           if-no-files-found: error
 
   publish:
-    if: contains(github.ref, '/tags/v')
+    if: startsWith(github.ref, 'refs/tags/v')
     needs: [build_dist]
     runs-on: ubuntu-latest
     environment: PyPI Release
+    permissions:
+      id-token: write # This is required for requesting the JWT
     steps:
     - name: Download artifacts
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v4
       with:
         # unpacks default artifact into dist/
         # if `name: artifact` is omitted, the action will create extra parent dir
@@ -61,7 +63,7 @@ jobs:
         path: dist
 
     - name: Publish sdist and wheels to PyPI
-      uses: pypa/gh-action-pypi-publish@v1
+      uses: pypa/gh-action-pypi-publish@release/v1
       with:
         user: __token__
         password: ${{ secrets.PYPI_API_TOKEN }}
